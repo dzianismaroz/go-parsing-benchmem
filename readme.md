@@ -1,4 +1,4 @@
-There is a function that looks for something in a file. But she doesn't do it very quickly. We need to optimize it.
+There is a function that searches for something in a file. But it makes it not very quickly. We need to optimize it.
 
 Assignment to work with the pprof profiler.
 
@@ -6,7 +6,7 @@ The goal of the task is to learn how to work with pprof, find hot spots in the c
 
 To generate the graph you will need graphviz. For windows users, be sure to add it to PATH so that the dot command is available.
 
-I recommend that you read the addendum carefully. materials in Russian - there are many more examples of optimization and explanations of how to work with the profiler. In fact, there is all the information to complete this task.
+I recommend that you read the addendum carefully. There are many more examples of optimization and explanations of how to work with the profiler. In fact, there is all the information to complete this task.
 
 There are a dozen places where you can optimize.
 You need to write a report about where you optimized and what. With screenshots and explanation of what they did. To learn exactly how to find problems in pprof, and not use your brains to figure out what’s slow here.
