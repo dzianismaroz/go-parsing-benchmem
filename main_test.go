@@ -6,8 +6,8 @@ import (
 	"testing"
 )
 
-// запускаем перед основными функциями по разу чтобы файл остался в памяти в файловом кеше
-// ioutil.Discard - это ioutil.Writer который никуда не пишет
+// run once before the main functions so that the file remains in memory in the file cache
+// ioutil.Discard - this is ioutil.Writer which doesn’t write anywhere
 func init() {
 	SlowSearch(ioutil.Discard)
 	FastSearch(ioutil.Discard)

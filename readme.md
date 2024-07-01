@@ -1,25 +1,25 @@
-Есть функиця, которая что-то там ищет по файлу. Но делает она это не очень быстро. Надо её оптимизировать.
+There is a function that looks for something in a file. But she doesn't do it very quickly. We need to optimize it.
 
-Задание на работу с профайлером pprof.
+Assignment to work with the pprof profiler.
 
-Цель задания - научиться работать с pprof, находить горячие места в коде, уметь строить профиль потребления cpu и памяти, оптимизировать код с учетом этой информации. Написание самого быстрого решения не является целью задания.
+The goal of the task is to learn how to work with pprof, find hot spots in the code, be able to build a CPU and memory consumption profile, and optimize the code taking this information into account. Writing the fastest solution is not the goal of the assignment.
 
-Для генерации графа вам понадобится graphviz. Для пользователей windows не забудьте добавить его в PATH чтобы была доступна команда dot.
+To generate the graph you will need graphviz. For windows users, be sure to add it to PATH so that the dot command is available.
 
-Рекомендую внимательно прочитать доп. материалы на русском - там ещё много примеров оптимизации и объяснений как работать с профайлером. Фактически там есть вся информация для выполнения этого задания.
+I recommend that you read the addendum carefully. materials in Russian - there are many more examples of optimization and explanations of how to work with the profiler. In fact, there is all the information to complete this task.
 
-Есть с десяток мест где можно оптимизировать.
-Вам надо писать отчет, где вы заоптимайзили и что. Со скриншотами и объяснением что делали. Чтобы именно научиться в pprof находить проблемы, а не прикинуть мозгами и решить что вот тут медленно.
+There are a dozen places where you can optimize.
+You need to write a report about where you optimized and what. With screenshots and explanation of what they did. To learn exactly how to find problems in pprof, and not use your brains to figure out what’s slow here.
 
-Для выполнения задания необходимо чтобы один из параметров ( ns/op, B/op, allocs/op ) был быстрее чем в *BenchmarkSolution* ( fast < solution ) и ещё один лучше *BenchmarkSolution* + 20% ( fast < solution * 1.2), например ( fast allocs/op < 10422*1.2=12506 ).
+To complete the task, one of the parameters ( ns/op, B/op, allocs/op ) must be faster than in *BenchmarkSolution* ( fast < solution ) and another one is better than *BenchmarkSolution* + 20% ( fast < solution * 1.2) , for example ( fast allocs/op < 10422*1.2=12506 ).
 
-По памяти ( B/op ) и количеству аллокаций ( allocs/op ) можно ориентироваться ровно на результаты *BenchmarkSolution* ниже, по времени ( ns/op ) - нет, зависит от системы.
+In terms of memory ( B/op ) and the number of allocations ( allocs/op ), you can focus exactly on the results of *BenchmarkSolution* below, in terms of time ( ns/op ) - no, it depends on the system.
 
-Параллелить (использовать горутины) или sync.Pool в это задании не нужно.
+There is no need to parallelize (use goroutines) or sync.Pool for this task.
 
-Результат в fast.go в функцию FastSearch (изначально там то же самое что в SlowSearch).
+The result in fast.go into the FastSearch function (initially the same as in SlowSearch).
 
-Пример результатов с которыми будет сравниваться:
+An example of the results that will be compared with:
 ```
 $ go test -bench . -benchmem
 
@@ -36,18 +36,18 @@ PASS
 ok coursera/hw3 3.897s
 ```
 
-Запуск:
-* `go test -v` - чтобы проверить что ничего не сломалось
-* `go test -bench . -benchmem` - для просмотра производительности
-* `go tool pprof -http=:8083 /path/ho/bin /path/to/out` - веб-интерфейс для pprof, пользуйтесь им для поиска горячих мест. Не забывайте, что у вас 2 режиме - cpu и mem, там разные out-файлы.
+Launch:
+* `go test -v` - to check that nothing is broken
+* `go test -bench . -benchmem` - to view performance
+* `go tool pprof -http=:8083 /path/ho/bin /path/to/out` - web interface for pprof, use it to search for hot spots. Don't forget that you have 2 modes - cpu and mem, there are different out files.
 
-Советы:
-* Смотрите где мы аллоцируем память
-* Смотрите где мы накапливаем весь результат, хотя нам все значения одновременно не нужны
-* Смотрите где происходят преобразования типов, которые можно избежать
-* Смотрите не только на графе, но и в pprof в текстовом виде (list FastSearch) - там прямо по исходнику можно увидеть где что
-* Задание предполагает использование easyjson. На сервере эта библиотека есть, подключать можно. Но сгенерированный через easyjson код вам надо поместить в файл с вашей функцией
-* Можно сделать без easyjson
+Adviсe:
+* See where we allocate memory
+* See where we accumulate the entire result, although we don’t need all the values ​​at the same time
+* See where type conversions occur that can be avoided
+* Look not only at the graph, but also in pprof in text form (list FastSearch) - there you can see where everything is directly from the source code
+* The task assumes the use of easyjson. This library is on the server, you can connect it. But you need to place the code generated via easyjson in a file with your function
+* Can be done without easyjson
 
-Примечание:
-* easyjson основан на рефлекции и не может работать с пакетом main. Для генерации кода вам необходимо вынести вашу структуру в отдельный пакет, сгенерить там код, потом забрать его в main
+Note:
+* easyjson is based on reflection and cannot work with the main package. To generate code, you need to put your structure into a separate package, generate the code there, then pick it up in main
