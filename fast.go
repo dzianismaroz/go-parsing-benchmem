@@ -13,14 +13,14 @@ import (
 // goarch: amd64
 // pkg: hw3
 // cpu: AMD Ryzen 9 5900HX with Radeon Graphics
-// BenchmarkSlow-8               69          17937375 ns/op        20191368 B/op     189831 allocs/op
-// BenchmarkFast-8              735           1602824 ns/op         1858347 B/op      10407 allocs/op
+// BenchmarkSlow-16              68          18515406 ns/op        20279242 B/op     189843 allocs/op
+// BenchmarkFast-16             896           1328198 ns/op          634471 B/op       8405 allocs/op
 // PASS
-// ok      hw3     2.859s
+// ok      hw3     2.857s
 
 const (
 	atMarker           = "@"
-	uniqueBrowsersSize = 1000
+	uniqueBrowsersSize = 200 // naive optimizations accordingly to benchmarks
 )
 
 func handeUniqueBrowser(seenBrowsers map[string]struct{}, browser string, uniqueBrowsers *int) {
@@ -45,7 +45,7 @@ func handleBrowsers(user *User, seenBrowsers map[string]struct{}, uniqueBrowsers
 	}
 	if !(AndroidPresented && MSIEPResented) {
 		return
-	}
+	} // write result of resolved user based on browsers used
 	writer.WriteString(fmt.Sprintf("[%d] %s <%s>\n", idx, user.Name, strings.ReplaceAll(user.Email, atMarker, " [at] ")))
 }
 
@@ -67,7 +67,7 @@ func FastSearch(out io.Writer) {
 
 	for scanner.Scan() {
 		tempUser = &User{}
-		err := tempUser.UnmarshalJSON([]byte(scanner.Text()))
+		err := tempUser.UnmarshalJSON(scanner.Bytes()) // read bytes directly
 		if err != nil {
 			panic(err)
 		}
